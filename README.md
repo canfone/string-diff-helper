@@ -23,8 +23,8 @@ The returned variable `diff` will be an array of lines if your strings are multi
 ```
 {
     remark: "<>",
-    diff1: "Your <mark>first</mark> string here...",
-    diff2: Your <mark>second</mark> string here...
+    diff1: "Your <mark>fir</mark>s<mark>t</mark> string here...",
+    diff2: Your s<mark>econd</mark> string here...
 }
 ```
 Notice the `<mark>` tag, that portion of your string was the diff. 
