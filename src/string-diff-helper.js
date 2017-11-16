@@ -1,4 +1,4 @@
-const StringDiffHelper = function() {
+let StringDiffHelper = function() {
     let getAllIndexes = (arr, val) => {
         let indexes = [], i = -1;
         while ((i = arr.indexOf(val, i+1)) !== -1){
@@ -168,5 +168,3 @@ const StringDiffHelper = function() {
         lineOutputBuilder
     }
 }();
-
-export default StringDiffHelper;

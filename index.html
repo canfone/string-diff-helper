@@ -3,38 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <title>String Diff Helper Sample</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        .textarea-pre-design {
+            font-family: monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            padding: 10.5px;
+            background: #f5f5f5;
+            border-radius: 4px;
+            word-wrap: break-word;
+            border: 1px solid #ccc;
+            word-break: break-all;
+            color: #333;
+            overflow: auto;
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            min-width: 100%;
+            white-space: pre;
+        }
+
+        .table-diff {
+            font-family: monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .table-diff .updated {
+            background: #FFFFAA;
+        }
+        .table-diff .removed {
+            background: #DDDDDD;
+        }
+        .table-diff mark {
+            background-color: #FFAAAA;
+        }
+    </style>
 </head>
-<body>
-    <h2 style="text-align: center;">String Diff Helper Sample</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>String One</th>
-                <th width="10%">&nbsp;</th>
-                <th>String Two</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. <br>
-                    Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. <br>
-                    It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. <br>
-                    It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                    </p>
-                </td>
-                <td></td>
-                <td>
-                    <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. <br>
-                    Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. <br>
-                    It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. <br>
-                    It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                    </p>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<body onload="getDiff()">
+    <div class="container">
+        <h2 style="text-align: center;">String Diff Helper Sample</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="text-center">String One</h4>
+                <textarea rows="15" class="textarea-pre-design" id="string1" title="string1">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+Ipsusm has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</textarea>
+            </div>
+            <div class="col-md-6">
+                <h4 class="text-center">String Two</h4>
+                <textarea rows="15" class="textarea-pre-design" id="string2" title="string2">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+Ipsusm has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</textarea>
+            </div>
+        </div>
+        <div class="row" style="margin: 30px 0">
+            <div class="col-md-12 text-center">
+                <button onclick="getDiff()" class="btn btn-primary">Show Diff</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-diff">
+                    <thead>
+                        <tr>
+                            <th>String One</th>
+                            <th>&nbsp;</th>
+                            <th>String Two</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-diff-body">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="src/string-diff-helper.js"></script>
+    <script>
+        function getDiff() {
+            let text1 = document.getElementById("string1").value;
+            let text2 = document.getElementById("string2").value;
+
+            let diff = StringDiffHelper.lineOutputBuilder(text1, text2);
+
+            showDiff(diff);
+        }
+
+        function showDiff(diff) {
+            let tbody = document.getElementById("table-diff-body");
+            let tbodyHtml = '';
+
+            diff.forEach((i) => {
+                tbodyHtml += '<tr>' +
+                        '<td class="'+remarkToClass1(i.remark)+'">'+i.diff1+'</td>' +
+                        '<td>'+i.remark+'</td>' +
+                        '<td class="'+remarkToClass2(i.remark)+'">'+i.diff2+'</td>' +
+                    '</tr>';
+            });
+
+            tbody.innerHTML = tbodyHtml;
+        }
+
+        function remarkToClass1(remark) {
+            if(remark === '-') {
+                return 'removed';
+            }
+
+            if(remark === '=') {
+                return '';
+            }
+
+            return 'updated';
+        }
+
+        function remarkToClass2(remark) {
+            if(remark === '-') {
+                return 'removed';
+            }
+
+            if(remark === '=') {
+                return '';
+            }
+
+            return 'updated';
+        }
+    </script>
 </body>
 </html>
