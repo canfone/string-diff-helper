@@ -3,7 +3,7 @@ A simple javascript helper to get diff of String return into an array.
 
 See live <a href="https://canfone.github.io/string-diff-helper/">demo</a> here
 
-## How to use
+# How to use
 Using native javascript, first you need to include the library file in your application.
 
 ```
@@ -30,3 +30,7 @@ The returned variable `diff` will be an array of lines if your strings are multi
 Notice the `<mark>` tag, that portion of your string was the diff. 
 
 You can fully customize your application based on your preferences using this helper. Just play around with it. :)
+
+# License
+
+Copyright (c) 2017 Cliff Richard Anfone. Released under the terms of the MIT license.
